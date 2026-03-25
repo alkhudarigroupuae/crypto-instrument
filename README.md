@@ -2,6 +2,15 @@
 
 Production-oriented scaffold: **Next.js 14** (Vercel) + **Fastify** API (Render) + **Convex** (data). Features include email/password auth, **TOTP 2FA** (encrypted secrets), JWT sessions with 2FA step-up, wallet connect (wagmi/viem), and a lending/borrow dashboard backed by Convex.
 
+## Where each host points in this repo (GitHub)
+
+| Host | Use this folder in GitHub | Config file / notes |
+|------|---------------------------|---------------------|
+| **Vercel** (frontend) | `frontend/` | `frontend/vercel.json` — set **Root Directory** = `frontend` in the Vercel project |
+| **Render** (API) | `backend/` | `render.yaml` at **repo root** (`rootDir: backend`) **or** create a Web Service with **Root Directory** = `backend` |
+
+Short guides: [`frontend/README.md`](frontend/README.md) · [`backend/README.md`](backend/README.md)
+
 ## Repository layout
 
 | Path | Role |
