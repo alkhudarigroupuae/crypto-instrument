@@ -16,3 +16,15 @@ This folder is the **only directory** Vercel needs for the web app.
 4. Deploy. Vercel reads `vercel.json` in this folder for install/build commands.
 
 See the repository root `README.md` for full Convex + API + CORS notes.
+
+## Troubleshooting
+
+### Blank / white screen
+
+- **Dashboard:** stay signed in, or you will briefly see “Redirecting to sign in…” before the app sends you to `/login`.
+- **Wrong Vercel root:** if **Root Directory** is not `frontend`, the build may succeed but routes break; set it to `frontend` and redeploy.
+
+### “404 Not Found” on Vercel
+
+- Confirm the deployment uses this repo with **Root Directory = `frontend`**.
+- Open `/` (home), not a path that does not exist in `app/`.
