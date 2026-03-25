@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SparkFi — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=Syne:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0a0a0b;
+      --gold: #d4af37;
+      --gold-dim: rgba(212, 175, 55, 0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--ink);
+      color: #f4f4f5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .noise::before {
+      content: "";
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-size: 48px 48px;
+      background-image:
+        linear-gradient(to right, rgba(212,175,55,0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(212,175,55,0.07) 1px, transparent 1px);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+    }
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 5rem 1rem 4rem;
+    }
+    .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(212, 175, 55, 0.9);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: Syne, system-ui, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      margin: 0 0 1.5rem;
+    }
+    .grad {
+      display: block;
+      background: linear-gradient(90deg, #fde68a, var(--gold), #b45309);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .lead {
+      max-width: 36rem;
+      font-size: 1.125rem;
+      color: #a1a1aa;
+      line-height: 1.6;
+    }
+    .actions {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: filter 0.2s;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn-primary {
+      background: linear-gradient(90deg, #b8860b, var(--gold));
+      color: #0a0a0b;
+      box-shadow: 0 0 60px -20px var(--gold-dim);
+    }
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: #fafafa;
+      backdrop-filter: blur(12px);
+    }
+    .cards {
+      margin-top: 4rem;
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    .card {
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, rgba(255,255,255,0.07), transparent);
+      backdrop-filter: blur(24px);
+      padding: 1.5rem;
+      box-shadow: 0 8px 40px -12px rgba(0,0,0,0.8);
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: rgba(212, 175, 55, 0.2); }
+    .card h3 {
+      font-family: Syne, sans-serif;
+      font-size: 1.125rem;
+      margin: 0.5rem 0 0.25rem;
+    }
+    .card p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+    .icon {
+      width: 2rem;
+      height: 2rem;
+      color: var(--gold);
+    }
+    .note {
+      margin-top: 3rem;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      border: 1px dashed rgba(212,175,55,0.25);
+      font-size: 0.8rem;
+      color: #71717a;
+    }
+    code { color: var(--gold); }
+  </style>
+</head>
+<body class="noise">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="blob" style="left:-10rem; top:6rem; width:26rem; height:26rem; background: rgba(212,175,55,0.1);"></div>
+  <div class="blob" style="right:-10rem; bottom:4rem; width:22rem; height:22rem; background: rgba(245,158,11,0.08);"></div>
+
+  <div class="wrap">
+    <p class="eyebrow">DeFi infrastructure</p>
+    <h1>
+      Lend with clarity.
+      <span class="grad">Borrow with conviction.</span>
+    </h1>
+    <p class="lead">
+      SparkFi combines institutional risk controls with a consumer-grade experience —
+      real-time balances, collateral health, and TOTP-backed accounts.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#">Create account →</a>
+      <a class="btn btn-outline" href="#">Sign in</a>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+        <h3>2FA by default</h3>
+        <p>TOTP with encrypted secrets and short-lived login challenges.</p>
+      </div>
+      <div class="card">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+        <h3>Yield surfaces</h3>
+        <p>Transparent APY cards and simulated earn logic you can extend on-chain.</p>
+      </div>
+      <div class="card">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 3V9m0 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m0 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v3"/></svg>
+        <h3>Wallet-native</h3>
+        <p>MetaMask & WalletConnect with live address and balance readouts.</p>
+      </div>
+    </div>
+
+    <p class="note">
+      Static preview of the SparkFi landing aesthetic. For the full Next.js app, run
+      <code>npm run dev</code> in <code>frontend/</code> and open <code>http://localhost:3000</code>.
+    </p>
+  </div>
+</body>
+</html>

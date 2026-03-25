@@ -1,0 +1,14 @@
+# Render Blueprint — set all env vars as secrets in the dashboard.
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: sparkfi-api
+    runtime: node
+    plan: starter
+    rootDir: backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
