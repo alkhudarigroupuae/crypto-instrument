@@ -45,14 +45,20 @@ type Profile = {
 export default function DashboardPage() {
   const router = useRouter();
   const qc = useQueryClient();
+  const [mounted, setMounted] = useState(false);
   const [depositAmt, setDepositAmt] = useState("");
   const [depAsset, setDepAsset] = useState<"ETH" | "USDC" | "WBTC">("USDC");
   const [collat, setCollat] = useState("");
   const [borrow, setBorrow] = useState("");
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     if (!getAccessToken()) router.replace("/login");
-  }, [router]);
+  }, [mounted, router]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["profile"],
@@ -100,7 +106,14 @@ export default function DashboardPage() {
     qc.invalidateQueries({ queryKey: ["profile"] });
   }
 
-  if (!getAccessToken()) return null;
+  if (!mounted) return <DashboardSkeleton />;
+  if (!getAccessToken()) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-20 text-center text-zinc-400">
+        Redirecting to sign in…
+      </div>
+    );
+  }
   if (isLoading) return <DashboardSkeleton />;
   if (error || !data) {
     return (
