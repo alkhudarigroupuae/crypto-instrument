@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 
 export function Card({
@@ -7,7 +5,7 @@ export function Card({
   children,
 }: {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <div

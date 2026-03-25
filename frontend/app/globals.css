@@ -4,6 +4,8 @@
 
 :root {
   color-scheme: dark;
+  --font-dm: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-syne: "Syne", ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
