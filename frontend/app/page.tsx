@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { HeroBanner } from "@/components/hero-banner";
 import {
   ArrowRight,
   Building2,
@@ -25,8 +26,14 @@ export default function HomePage() {
       <div className="pointer-events-none absolute -left-40 top-32 h-[420px] w-[420px] rounded-full bg-gold-500/10 blur-[100px]" />
       <div className="pointer-events-none absolute -right-40 bottom-20 h-[360px] w-[360px] rounded-full bg-amber-500/10 blur-[90px]" />
 
-      <section className="mx-auto max-w-6xl px-4 pb-20 pt-20 md:pt-28">
-        <motion.div variants={{ show: { transition: { staggerChildren: 0.08 } } }} initial="initial" animate="show" className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+      <section className="relative mx-auto max-w-6xl px-4 pb-20 pt-20 md:pt-28">
+        <HeroBanner />
+        <motion.div
+          variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+          initial="initial"
+          animate="show"
+          className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end"
+        >
           <div>
             <motion.p variants={fade} className="mb-4 text-xs font-medium uppercase tracking-[0.25em] text-gold-500/90">
               Institutional DeFi Platform
