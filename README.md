@@ -58,6 +58,54 @@ npm run dev
 
 Deploy to Vercel with **Root Directory** = `frontend` and `NEXT_PUBLIC_API_URL` pointing at your Render API URL (`https://…`).
 
+## Deploy: Vercel (frontend) + Render (API)
+
+Order matters: deploy the API first so you have a public base URL for `NEXT_PUBLIC_API_URL` and for `CORS_ORIGIN` / `PUBLIC_APP_URL`.
+
+### A) Convex (if not already in production)
+
+1. `npx convex deploy` (or configure production deployment in the Convex dashboard).
+2. In **Convex → Settings → Environment variables**, set `BACKEND_SECRET` to a long random string (same value you will use on Render).
+
+### B) Render — Fastify API (`backend/`)
+
+1. In [Render](https://render.com), **New → Blueprint** (point at this repo) or **New → Web Service** with:
+   - **Root Directory:** `backend`
+   - **Build:** `npm ci && npm run build`
+   - **Start:** `npm start`
+   - **Health check path:** `/health`
+2. **Environment variables** (see `backend/.env.example`):
+
+   | Variable | Notes |
+   |----------|--------|
+   | `CONVEX_URL` | Production Convex URL (`https://….convex.cloud`) |
+   | `BACKEND_SECRET` | Must match Convex `BACKEND_SECRET` |
+   | `JWT_SECRET` | Strong random secret for access tokens |
+   | `TOTP_ENCRYPTION_KEY` | 64 hex chars (`openssl rand -hex 32`) |
+   | `CORS_ORIGIN` | Your Vercel origin(s), comma-separated, no trailing slash (e.g. `https://myapp.vercel.app`). Add preview URLs if you use them. |
+   | `PUBLIC_APP_URL` | Public frontend URL (same as production Vercel URL) for email/verify links |
+   | `NODE_ENV` | `production` (Blueprint sets this) |
+
+3. After deploy, copy the service URL, e.g. `https://sparkfi-api.onrender.com`.
+
+### C) Vercel — Next.js (`frontend/`)
+
+1. [Vercel](https://vercel.com) → **Add New → Project** → import this GitHub repo.
+2. **Root Directory:** `frontend`
+3. **Environment variables:**
+
+   | Variable | Value |
+   |----------|--------|
+   | `NEXT_PUBLIC_API_URL` | `https://<your-render-service>.onrender.com` (no trailing slash) |
+   | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | Optional; from [WalletConnect Cloud](https://cloud.walletconnect.com) |
+
+4. Deploy. If the API was already running, update **Render** `CORS_ORIGIN` and `PUBLIC_APP_URL` to your final Vercel production domain and redeploy the API.
+
+### D) Smoke test
+
+- Open the Vercel site; register/login should call the Render API (`NEXT_PUBLIC_API_URL`).
+- `GET https://<api>/health` should return `{"ok":true}`.
+
 ## Security notes
 
 - Every Convex function that touches user data requires `backendSecret === process.env.BACKEND_SECRET`. **Never** expose `BACKEND_SECRET` or `JWT_SECRET` to the browser.

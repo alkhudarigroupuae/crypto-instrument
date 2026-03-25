@@ -1,4 +1,5 @@
-# Render Blueprint — set all env vars as secrets in the dashboard.
+# Render Blueprint — create/update service from this file.
+# Set secret values in the Render Dashboard (Environment) or via `render env`.
 # https://render.com/docs/blueprint-spec
 services:
   - type: web
@@ -12,3 +13,22 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
+      - key: NODE_ENV
+        value: production
+      # Render injects PORT automatically; optional override:
+      # - key: PORT
+      #   value: "10000"
+      - key: CONVEX_URL
+        sync: false
+      - key: BACKEND_SECRET
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: TOTP_ENCRYPTION_KEY
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: PUBLIC_APP_URL
+        sync: false
+      - key: JWT_2FA_SECRET
+        sync: false
